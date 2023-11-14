@@ -1,0 +1,15 @@
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.BLL\bin\Debug\net5.0\Demo.BLL.deps.json
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.BLL\bin\Debug\net5.0\Demo.BLL.dll
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.BLL\bin\Debug\net5.0\Demo.BLL.pdb
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.BLL\bin\Debug\net5.0\Demo.DAL.dll
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.BLL\bin\Debug\net5.0\Demo.DAL.pdb
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.BLL\obj\Debug\net5.0\Demo.BLL.csproj.AssemblyReference.cache
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.BLL\obj\Debug\net5.0\Demo.BLL.GeneratedMSBuildEditorConfig.editorconfig
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.BLL\obj\Debug\net5.0\Demo.BLL.AssemblyInfoInputs.cache
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.BLL\obj\Debug\net5.0\Demo.BLL.AssemblyInfo.cs
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.BLL\obj\Debug\net5.0\Demo.BLL.csproj.CoreCompileInputs.cache
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.BLL\obj\Debug\net5.0\Demo.BLL.csproj.CopyComplete
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.BLL\obj\Debug\net5.0\Demo.BLL.dll
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.BLL\obj\Debug\net5.0\refint\Demo.BLL.dll
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.BLL\obj\Debug\net5.0\Demo.BLL.pdb
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.BLL\obj\Debug\net5.0\ref\Demo.BLL.dll

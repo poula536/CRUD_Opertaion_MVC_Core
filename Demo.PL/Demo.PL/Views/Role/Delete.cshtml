@@ -1,0 +1,15 @@
+﻿@model IdentityRole
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Are you Sure You want To Delete</h1>
+<form asp-action="Delete"> 
+    <input type="hidden" asp-for="Id" />
+
+    <partial name="PartialViews/_DeleteDetailsRolePartialView" />
+
+    <input type="submit" class="btn btn-danger" value="Delete"/> |
+    <a asp-action="Index" class="btn btn-light">Back</a>
+
+</form>

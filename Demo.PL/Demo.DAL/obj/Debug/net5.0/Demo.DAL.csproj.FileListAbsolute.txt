@@ -1,0 +1,12 @@
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.DAL\bin\Debug\net5.0\Demo.DAL.deps.json
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.DAL\bin\Debug\net5.0\Demo.DAL.dll
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.DAL\bin\Debug\net5.0\Demo.DAL.pdb
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.DAL\obj\Debug\net5.0\Demo.DAL.csproj.AssemblyReference.cache
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.DAL\obj\Debug\net5.0\Demo.DAL.GeneratedMSBuildEditorConfig.editorconfig
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.DAL\obj\Debug\net5.0\Demo.DAL.AssemblyInfoInputs.cache
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.DAL\obj\Debug\net5.0\Demo.DAL.AssemblyInfo.cs
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.DAL\obj\Debug\net5.0\Demo.DAL.csproj.CoreCompileInputs.cache
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.DAL\obj\Debug\net5.0\Demo.DAL.dll
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.DAL\obj\Debug\net5.0\refint\Demo.DAL.dll
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.DAL\obj\Debug\net5.0\Demo.DAL.pdb
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.DAL\obj\Debug\net5.0\ref\Demo.DAL.dll
