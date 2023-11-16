@@ -7,17 +7,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
+using AutoMapper;
 
 namespace Demo.PL.Controllers
 {
 	public class UserController : Controller
 	{
 		private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMapper _mapper;
 
-		public UserController(UserManager<ApplicationUser> userManager)
+        public UserController(UserManager<ApplicationUser> userManager, IMapper mapper)
         {
 			_userManager = userManager;
-		}
+            _mapper = mapper;
+        }
 		public async Task<IActionResult> Index(string SearchValue)
 		{
 			var users = Enumerable.Empty<ApplicationUser>().ToList();
@@ -25,37 +28,68 @@ namespace Demo.PL.Controllers
 				users.AddRange(_userManager.Users);
 			else
 				users.Add(await _userManager.FindByEmailAsync(SearchValue));
-			return View(users);
+			
+			var mappedusers = _mapper.Map<List<ApplicationUser>, IEnumerable<RegisterViewModel>>(users);
+			
+			return View(mappedusers);
 		}
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+				var user = _mapper.Map<RegisterViewModel, ApplicationUser>(model);
+				//           var user = new ApplicationUser()
+				//           {
+				//               UserName = model.Email.Split('@')[0],
+				//               Email = model.Email,
+				//PhoneNumber = model.PhoneNumber,
+				//               IsAgree = model.IsAgree
+
+				//           };
+				var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                    return RedirectToAction(nameof(Index));
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError(string.Empty, error.Description);
+            }
+            return View(model);
+
+        }
 
 
-		//public async Task<IActionResult> Create()
-		//{
-		//	ViewBag.Departments = await _unitOfWork.DepartmentRepository.GetAll();
-		//	return View();
-		//}
-		//[HttpPost]
-		//[ValidateAntiForgeryToken]
-		//public async Task<IActionResult> Create(EmployeeViewModel employeeVM)
-		//{
-		//	if (ModelState.IsValid) // Server Side Validation
-		//	{
-		//		employeeVM.ImageName = DocumentSettings.UploadFile(employeeVM.Image, "images");
-		//		var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
-		//		await _unitOfWork.EmployeeRepository.Add(mappedEmp);
-		//		return RedirectToAction(nameof(Index));
-		//	}
-		//	return View(employeeVM);
-		//}
+        //public async Task<IActionResult> Create()
+        //{
+        //	ViewBag.Departments = await _unitOfWork.DepartmentRepository.GetAll();
+        //	return View();
+        //}
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create(EmployeeViewModel employeeVM)
+        //{
+        //	if (ModelState.IsValid) // Server Side Validation
+        //	{
+        //		employeeVM.ImageName = DocumentSettings.UploadFile(employeeVM.Image, "images");
+        //		var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(employeeVM);
+        //		await _unitOfWork.EmployeeRepository.Add(mappedEmp);
+        //		return RedirectToAction(nameof(Index));
+        //	}
+        //	return View(employeeVM);
+        //}
 
-		public async Task<IActionResult> Details([FromRoute] string id, string ViewName = "Details")
+        public async Task<IActionResult> Details([FromRoute] string id, string ViewName = "Details")
 		{
 			if (id == null)
 				return NotFound();
 			var User = await _userManager.FindByIdAsync(id);
 			if (User == null)
 				return NotFound();
-			return View(ViewName, User);
+			var mappeduser = _mapper.Map<ApplicationUser , RegisterViewModel>(User);
+			return View(ViewName, mappeduser);
 		}
 		public async Task<IActionResult> Edit(string id)
 		{
@@ -63,7 +97,7 @@ namespace Demo.PL.Controllers
 		}
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit([FromRoute] string id, ApplicationUser updatedUser)
+		public async Task<IActionResult> Edit([FromRoute] string id, RegisterViewModel updatedUser)
 		{
 			if (id != updatedUser.Id)
 				return BadRequest();
@@ -71,9 +105,15 @@ namespace Demo.PL.Controllers
 			{
 				try
 				{
-					var user = await _userManager.FindByIdAsync(id);
+                    //var user = await _userManager.FindByIdAsync(id);
+                    //user.Email = updatedUser.Email;
+                    //user.PhoneNumber = updatedUser.PhoneNumber;
+                    var user = _mapper.Map<RegisterViewModel, ApplicationUser>(updatedUser);
+					user = await _userManager.FindByIdAsync(id);
 					user.UserName = updatedUser.UserName;
+					user.Email = updatedUser.Email;
 					user.PhoneNumber = updatedUser.PhoneNumber;
+					user.IsAgree = updatedUser.IsAgree;
 					await _userManager.UpdateAsync(user);
 					return RedirectToAction(nameof(Index));
 				}
@@ -91,7 +131,7 @@ namespace Demo.PL.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Delete([FromRoute] string id, ApplicationUser deletedUser)
+		public async Task<IActionResult> Delete([FromRoute] string id, RegisterViewModel deletedUser)
 		{
 			if (id != deletedUser.Id)
 				return BadRequest();
@@ -99,7 +139,8 @@ namespace Demo.PL.Controllers
 			{
 				try
 				{
-					var user = await _userManager.FindByIdAsync(id);
+                    var user = _mapper.Map<RegisterViewModel, ApplicationUser>(deletedUser);
+                    user = await _userManager.FindByIdAsync(id);
 					await _userManager.DeleteAsync(user);
 					return RedirectToAction(nameof(Index));
 

@@ -40,7 +40,10 @@ namespace Demo.PL
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddAutoMapper(M => M.AddProfile(new EmployeeProfile()));
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddAutoMapper(M => M.AddProfile(new Registerprofile()));
+			//services.AddAutoMapper(M => M.AddProfile(new UserProfile()));
+
+			services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {

@@ -4,6 +4,9 @@ namespace Demo.PL.ViewModels
 {
 	public class RegisterViewModel
 	{
+        public string Id { get; set; }
+        [Required(ErrorMessage = "UserName is required")]
+        public string UserName { get; set; }
         [Required(ErrorMessage ="Email is required")]
         [EmailAddress(ErrorMessage ="Invalid Email")]
         public string Email { get; set; }
@@ -14,7 +17,7 @@ namespace Demo.PL.ViewModels
         [Compare("Password",ErrorMessage ="Confirm Password does not match Password")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
-
+        public string PhoneNumber { get; set; }
         public bool IsAgree { get; set; }
     }
 }

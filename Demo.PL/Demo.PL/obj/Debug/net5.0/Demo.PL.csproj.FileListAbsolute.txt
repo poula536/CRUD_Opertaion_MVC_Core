@@ -473,3 +473,4 @@ E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.PL\obj\Debug\net5
 E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.PL\obj\Debug\net5.0\Razor\Views\Role\PartialViews\_DeleteDetailsRolePartialView.cshtml.g.cs
 E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.PL\bin\Debug\net5.0\Castle.Core.dll
 E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.PL\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Proxies.dll
+E:\Eng Ahmed Nasr\07 ASP.NET MVC\Session 02\Demos\Demo.PL\Demo.PL\obj\Debug\net5.0\Razor\Views\User\Create.cshtml.g.cs

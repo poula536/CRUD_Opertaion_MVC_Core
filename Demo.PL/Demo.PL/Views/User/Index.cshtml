@@ -1,9 +1,10 @@
-﻿@model IEnumerable<ApplicationUser>
+﻿@model IEnumerable<RegisterViewModel>
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1 class="mb-3">All Users</h1>
+<a asp-action="Create" class="btn mb-5 btn-primary">Create New User</a>
 
 <form asp-action="Index" class="mb-3"> 
     <div class="row align-items-center justify-content-center">

@@ -4,6 +4,7 @@ using Demo.PL.Helpers;
 using Demo.PL.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace Demo.PL.Controllers
@@ -13,11 +14,14 @@ namespace Demo.PL.Controllers
 
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
+		private readonly IMapper _mapper;
 
-		public AccountController(UserManager<ApplicationUser> UserManager, SignInManager<ApplicationUser> signInManager)
+		public AccountController(UserManager<ApplicationUser> UserManager
+            , SignInManager<ApplicationUser> signInManager, IMapper mapper)
         {
 			_userManager = UserManager;
 			_signInManager = signInManager;
+			_mapper = mapper;
 		}
 
         #region Register
@@ -30,14 +34,7 @@ namespace Demo.PL.Controllers
 		{
             if(ModelState.IsValid)
             {
-                //var user = _mapper.Map<RegisterViewModel, IdentityUser>(model); 
-                var user = new ApplicationUser()
-                {
-                    UserName = model.Email.Split('@')[0],
-                    Email = model.Email,
-                    IsAgree = model.IsAgree
-
-                };
+                var user = _mapper.Map<RegisterViewModel, ApplicationUser>(model);
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if(result.Succeeded)
                     return RedirectToAction(nameof(Login));
@@ -60,19 +57,26 @@ namespace Demo.PL.Controllers
 		{
             if(ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                if(user != null)
+                var userName = await _userManager.FindByNameAsync(model.Email);
+
+                if (new EmailAddressAttribute().IsValid(model.Email))
+                    userName = await _userManager.FindByEmailAsync(model.Email);
+             
+
+				if (userName != null)
                 {
-                    bool flag = await _userManager.CheckPasswordAsync(user, model.Password);
+                    bool flag = await _userManager.CheckPasswordAsync(userName, model.Password);
                     if(flag) 
                     {
-                        var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
+                        var result = await _signInManager.PasswordSignInAsync(userName, model.Password, model.RememberMe, false);
                         if(result.Succeeded)
                             return RedirectToAction("Index" , "Home");
                     }
-                    //ModelState.AddModelError(string.Empty, "Wrong Password or");
+                    else
+                        ModelState.AddModelError(string.Empty, "Wrong Password");
                 }
-                ModelState.AddModelError(string.Empty, "Wrong Password or Email");
+                else
+                    ModelState.AddModelError(string.Empty, "Wrong Email Or Username");
             }
 			return View(model);
 		}
