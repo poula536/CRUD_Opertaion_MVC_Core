@@ -8,49 +8,65 @@ using System.Linq;
 using System.Threading.Tasks;
 using System;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Demo.PL.Controllers
 {
+	[Authorize(Roles = "Admin")]
 	public class UserController : Controller
 	{
 		private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
 
-        public UserController(UserManager<ApplicationUser> userManager, IMapper mapper)
+        public UserController(UserManager<ApplicationUser> userManager,
+			RoleManager<IdentityRole>roleManager, IMapper mapper)
         {
 			_userManager = userManager;
+            _roleManager = roleManager;
             _mapper = mapper;
         }
-		public async Task<IActionResult> Index(string SearchValue)
+		public async Task<IActionResult> Index()
 		{
-			var users = Enumerable.Empty<ApplicationUser>().ToList();
-			if (String.IsNullOrEmpty(SearchValue))
-				users.AddRange(_userManager.Users);
-			else
-				users.Add(await _userManager.FindByEmailAsync(SearchValue));
+			//var users = Enumerable.Empty<ApplicationUser>().ToList();
+			var users = await _userManager.Users.Select(user => new UserViewModel 
+			{ 
+				Id = user.Id,
+				UserName = user.UserName,
+				Email = user.Email,
+				PhoneNumber = user.PhoneNumber,	
+				Roles = _userManager.GetRolesAsync(user).Result
+			}).ToListAsync();
+
+			//if (String.IsNullOrEmpty(SearchValue))
+			//	users.AddRange(_userManager.Users);
+			//else
+			//	users.Add(await _userManager.FindByEmailAsync(SearchValue));
 			
-			var mappedusers = _mapper.Map<List<ApplicationUser>, IEnumerable<RegisterViewModel>>(users);
-			
-			return View(mappedusers);
+			//var mappedusers = _mapper.Map<List<ApplicationUser>, IEnumerable<UserViewModel>>(users);
+
+			return View(users);
 		}
         public IActionResult Create()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(RegisterViewModel model)
+        public async Task<IActionResult> Create(UserViewModel model)
         {
             if (ModelState.IsValid)
             {
-				var user = _mapper.Map<RegisterViewModel, ApplicationUser>(model);
-				//           var user = new ApplicationUser()
-				//           {
-				//               UserName = model.Email.Split('@')[0],
-				//               Email = model.Email,
-				//PhoneNumber = model.PhoneNumber,
-				//               IsAgree = model.IsAgree
+				var user = _mapper.Map<UserViewModel, ApplicationUser>(model);
+				//var user = new ApplicationUser()
+				//{
+				//	Id = model.Id,
+				//	UserName = model.Email.Split('@')[0],
+				//	Email = model.Email,
+				//	PhoneNumber = model.PhoneNumber,
+				//	IsAgree = model.IsAgree
 
-				//           };
+				//};
 				var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                     return RedirectToAction(nameof(Index));
@@ -88,7 +104,7 @@ namespace Demo.PL.Controllers
 			var User = await _userManager.FindByIdAsync(id);
 			if (User == null)
 				return NotFound();
-			var mappeduser = _mapper.Map<ApplicationUser , RegisterViewModel>(User);
+			var mappeduser = _mapper.Map<ApplicationUser , UserViewModel>(User);
 			return View(ViewName, mappeduser);
 		}
 		public async Task<IActionResult> Edit(string id)
@@ -97,7 +113,7 @@ namespace Demo.PL.Controllers
 		}
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit([FromRoute] string id, RegisterViewModel updatedUser)
+		public async Task<IActionResult> Edit([FromRoute] string id, UserViewModel updatedUser)
 		{
 			if (id != updatedUser.Id)
 				return BadRequest();
@@ -108,7 +124,7 @@ namespace Demo.PL.Controllers
                     //var user = await _userManager.FindByIdAsync(id);
                     //user.Email = updatedUser.Email;
                     //user.PhoneNumber = updatedUser.PhoneNumber;
-                    var user = _mapper.Map<RegisterViewModel, ApplicationUser>(updatedUser);
+                    var user = _mapper.Map<UserViewModel, ApplicationUser>(updatedUser);
 					user = await _userManager.FindByIdAsync(id);
 					user.UserName = updatedUser.UserName;
 					user.Email = updatedUser.Email;
@@ -131,7 +147,7 @@ namespace Demo.PL.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Delete([FromRoute] string id, RegisterViewModel deletedUser)
+		public async Task<IActionResult> Delete([FromRoute] string id, UserViewModel deletedUser)
 		{
 			if (id != deletedUser.Id)
 				return BadRequest();
@@ -139,7 +155,7 @@ namespace Demo.PL.Controllers
 			{
 				try
 				{
-                    var user = _mapper.Map<RegisterViewModel, ApplicationUser>(deletedUser);
+                    var user = _mapper.Map<UserViewModel, ApplicationUser>(deletedUser);
                     user = await _userManager.FindByIdAsync(id);
 					await _userManager.DeleteAsync(user);
 					return RedirectToAction(nameof(Index));

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Demo.DAL.Entities
 {
-	public class Email
+	public class Email : BaseEntity
 	{
-        public int Id { get; set; }
         public string Subject { get; set; }
         public string To { get; set; }
         public string Body { get; set; }

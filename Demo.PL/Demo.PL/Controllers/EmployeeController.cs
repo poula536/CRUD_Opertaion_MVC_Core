@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Demo.BLL.Interfaces;
+using Demo.BLL.Specifications;
 using Demo.DAL.Entities;
 using Demo.PL.Helpers;
 using Demo.PL.ViewModels;
@@ -29,9 +30,15 @@ namespace Demo.PL.Controllers
         {
             var Employees = Enumerable.Empty<Employee>();
             if (String.IsNullOrEmpty(SearchValue))
-                 Employees = await _unitOfWork.EmployeeRepository.GetAll();
+            {
+                var spec = new EmployeeWithDepartmentSpecification();
+                 Employees = await _unitOfWork.EmployeeRepository.GetAllWithSpecAsync(spec);
+            }
             else
-                 Employees = _unitOfWork.EmployeeRepository.GetEmployeesByName(SearchValue);
+            {
+                var spec = new EmployeeWithDepartmentSpecification(SearchValue);
+                 Employees = _unitOfWork.EmployeeRepository.GetEmployeesByNameWithSpec(spec);
+            }
             var mappdedEmp = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeViewModel>>(Employees);
             return View(mappdedEmp);
 

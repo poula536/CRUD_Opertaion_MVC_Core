@@ -4,7 +4,6 @@ namespace Demo.PL.ViewModels
 {
 	public class RegisterViewModel
 	{
-        public string Id { get; set; }
         [Required(ErrorMessage = "UserName is required")]
         public string UserName { get; set; }
         [Required(ErrorMessage ="Email is required")]

@@ -15,13 +15,15 @@ namespace Demo.PL.Controllers
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
 		private readonly IMapper _mapper;
+		private readonly RoleManager<IdentityRole> _roleManager;
 
 		public AccountController(UserManager<ApplicationUser> UserManager
-            , SignInManager<ApplicationUser> signInManager, IMapper mapper)
+            , SignInManager<ApplicationUser> signInManager, IMapper mapper, RoleManager<IdentityRole> roleManager)
         {
 			_userManager = UserManager;
 			_signInManager = signInManager;
 			_mapper = mapper;
+			_roleManager = roleManager;
 		}
 
         #region Register
@@ -35,10 +37,16 @@ namespace Demo.PL.Controllers
             if(ModelState.IsValid)
             {
                 var user = _mapper.Map<RegisterViewModel, ApplicationUser>(model);
+
                 var result = await _userManager.CreateAsync(user, model.Password);
+
                 if(result.Succeeded)
-                    return RedirectToAction(nameof(Login));
-                foreach(var error in result.Errors)
+                {
+                    await _userManager.AddToRoleAsync(user, "User");
+					return RedirectToAction(nameof(Login));
+				}
+
+				foreach (var error in result.Errors)
                     ModelState.AddModelError(string.Empty, error.Description);
             }
             return View(model);

@@ -1,4 +1,5 @@
 ﻿using Demo.BLL.Interfaces;
+using Demo.BLL.Specifications;
 using Demo.DAL.Context;
 using Demo.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Demo.BLL.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         private readonly MVCAppContext _dbContext;
         public GenericRepository(MVCAppContext dbContext)
@@ -37,8 +38,8 @@ namespace Demo.BLL.Repositories
 
         public async Task <IEnumerable<T>> GetAll()
         {
-            if(typeof(T) == typeof(Employee))
-                return (IEnumerable<T>) await _dbContext.Set<Employee>().Include(E=> E.Department).ToListAsync();
+            //if(typeof(T) == typeof(Employee))
+            //    return (IEnumerable<T>) await _dbContext.Set<Employee>().Include(E=> E.Department).ToListAsync();
             return await _dbContext.Set<T>().ToListAsync();
 
         }
@@ -47,6 +48,20 @@ namespace Demo.BLL.Repositories
         {
             _dbContext.Set<T>().Update(item);
             return await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetAllWithSpecAsync(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).ToListAsync();
+        }
+
+        public async Task<T> GetByIdWithSpecAsync(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).FirstOrDefaultAsync();
+        }
+        private IQueryable<T> ApplySpecification(ISpecification<T> spec)
+        {
+            return SpecificationEvaluator<T>.GetQuery(_dbContext.Set<T>(), spec);
         }
     }
 }

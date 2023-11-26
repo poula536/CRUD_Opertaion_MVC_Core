@@ -1,6 +1,8 @@
 ﻿using Demo.BLL.Interfaces;
+using Demo.BLL.Specifications;
 using Demo.DAL.Context;
 using Demo.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,5 +25,14 @@ namespace Demo.BLL.Repositories
 
         public IQueryable<Employee> GetEmployeesByName(string name)
             => _dbContext.Employees.Where(E=> E.Name.Contains(name));
+
+        public  IQueryable<Employee> GetEmployeesByNameWithSpec(ISpecification<Employee> spec)
+        {
+            return  ApplySpecification(spec);
+        }
+        private IQueryable<Employee> ApplySpecification(ISpecification<Employee> spec)
+        {
+            return SpecificationEvaluator<Employee>.GetQuery(_dbContext.Set<Employee>(), spec);
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace Demo.PL.Mappers
 	{
         public UserProfile()
         {
-            //CreateMap<RegisterViewModel , ApplicationUser>().ReverseMap();
+			CreateMap<UserViewModel, ApplicationUser>().ReverseMap();
 
 		}
 	}

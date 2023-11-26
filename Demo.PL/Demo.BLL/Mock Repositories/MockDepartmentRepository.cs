@@ -1,4 +1,5 @@
 ﻿using Demo.BLL.Interfaces;
+using Demo.BLL.Specifications;
 using Demo.DAL.Entities;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,16 @@ namespace Demo.BLL.Mock_Repositories
         }
 
         public IEnumerable<Department> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Department>> GetAllWithSpecAsync(ISpecification<Department> spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Department> GetByIdWithSpecAsync(ISpecification<Department> spec)
         {
             throw new NotImplementedException();
         }

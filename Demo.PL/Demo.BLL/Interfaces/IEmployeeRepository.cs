@@ -1,4 +1,5 @@
-﻿using Demo.DAL.Entities;
+﻿using Demo.BLL.Specifications;
+using Demo.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,7 @@ namespace Demo.BLL.Interfaces
     {
         IQueryable<Employee> GetEmployeesByDepartmentName(string departmentName);
         IQueryable<Employee> GetEmployeesByName(string name);
+        IQueryable<Employee> GetEmployeesByNameWithSpec(ISpecification<Employee> spec);
+
     }
 }
